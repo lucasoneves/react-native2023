@@ -1,17 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function ColorBox({ color, text }) {
+export default function ColorBox({ bgColor, text, color }) {
   return (
-    <View style={[styles.box, color]}>
-      <Text>{text}</Text>
+    <View style={[{ backgroundColor: bgColor }, styles.box]}>
+      <Text style={{ color: color }}>{text}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   box: {
-    backgroundColor: 'F3f3f3',
     justifyContent: 'center',
     paddingVertical: 10,
     marginTop: 20,
