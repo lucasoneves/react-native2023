@@ -4,26 +4,8 @@ import { View, Text, SafeAreaView, FlatList, StyleSheet } from 'react-native';
 
 import BoxColor from '../components/ColorBox';
 
-const COLORS = [
-  { colorName: 'Base03', hexCode: '#002b36' },
-  { colorName: 'Base02', hexCode: '#073642' },
-  { colorName: 'Base01', hexCode: '#586e75' },
-  { colorName: 'Base00', hexCode: '#657b83' },
-  { colorName: 'Base0', hexCode: '#839496' },
-  { colorName: 'Base1', hexCode: '#93a1a1' },
-  { colorName: 'Base2', hexCode: '#eee8d5' },
-  { colorName: 'Base3', hexCode: '#fdf6e3' },
-  { colorName: 'Yellow', hexCode: '#b58900' },
-  { colorName: 'Orange', hexCode: '#cb4b16' },
-  { colorName: 'Red', hexCode: '#dc322f' },
-  { colorName: 'Magenta', hexCode: '#d33682' },
-  { colorName: 'Violet', hexCode: '#6c71c4' },
-  { colorName: 'Blue', hexCode: '#268bd2' },
-  { colorName: 'Cyan', hexCode: '#2aa198' },
-  { colorName: 'Green', hexCode: '#859900' },
-];
-
-const ColorPalette = () => {
+const ColorPalette = ({ route }) => {
+  const { colors, paletteName } = route.params;
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -31,11 +13,11 @@ const ColorPalette = () => {
         <FlatList
           // eslint-disable-next-line react-native/no-inline-styles
           style={{ width: '100%' }}
-          data={COLORS}
+          data={colors}
           keyExtractor={(item) => item.colorName}
           renderItem={({ item }) => (
             <BoxColor
-              text={item.colorName}
+              text={item.hexCode}
               bgColor={item.hexCode}
               color={
                 parseInt(item.hexCode.replace('#', ''), 16) > 0xffffff / 1.1
@@ -44,7 +26,7 @@ const ColorPalette = () => {
               }
             />
           )}
-          ListHeaderComponent={<Text style={styles.text}>Solarized</Text>}
+          ListHeaderComponent={<Text style={styles.text}>{paletteName}</Text>}
         />
       </View>
     </SafeAreaView>
