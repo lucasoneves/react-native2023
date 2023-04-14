@@ -5,6 +5,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import PalettePreview from '../components/PalettePreview';
 const Home = ({ navigation }) => {
   const [palette, setPalette] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const fetchPalettes = useCallback(async () => {
     const result = await fetch(
       'https://color-palette-api.kadikraman.now.sh/palettes',
@@ -18,6 +19,15 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     fetchPalettes();
   }, []);
+
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchPalettes();
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 3000);
+  }, []);
+
   return (
     <FlatList
       data={palette}
@@ -30,6 +40,17 @@ const Home = ({ navigation }) => {
           }}
         />
       )}
+      refreshing={isRefreshing}
+      onRefresh={handleRefresh}
+      ListHeaderComponent={
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('AddNewPaletteModal');
+          }}
+        >
+          <Text>Launch Modal</Text>
+        </TouchableOpacity>
+      }
     />
   );
 };
